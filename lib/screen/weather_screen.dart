@@ -24,7 +24,6 @@ class _HomeScreenState extends State<WeatherScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xffE8F9FD),
         body: Consumer<WeatherApiService>(
           builder: (context, weatherService, child) {
             return SingleChildScrollView(
@@ -40,7 +39,7 @@ class _HomeScreenState extends State<WeatherScreen> {
                           style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xff2155CD),
+                            color: Color(0xff62BFAD),
                           ),
                         ),
                       ],

@@ -48,7 +48,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xff2155CD),
+                          color: Color(0xff62BFAD),
                         ),
                       ),
                     ],

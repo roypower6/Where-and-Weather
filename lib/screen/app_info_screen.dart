@@ -8,7 +8,6 @@ class AppInfoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xffE8F9FD),
         body: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(
@@ -21,7 +20,7 @@ class AppInfoScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff2155CD),
+                      color: Color(0xff62BFAD),
                     ),
                   ),
                 ],

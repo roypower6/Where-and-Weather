@@ -27,9 +27,10 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color(0xffE8F9FD),
+        backgroundColor: const Color(0xffF9F7E8),
         selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-        selectedItemColor: const Color(0xff2155CD),
+        unselectedItemColor: Colors.grey,
+        selectedItemColor: const Color(0xff62BFAD),
         currentIndex: _selectedIndex,
         onTap: (index) {
           setState(() {
@@ -38,18 +39,22 @@ class _MainScreenState extends State<MainScreen> {
         },
         items: const [
           BottomNavigationBarItem(
+            backgroundColor: Color(0xffF9F7E8),
             icon: Icon(UniconsLine.sun),
             label: '날씨',
           ),
           BottomNavigationBarItem(
+            backgroundColor: Color(0xffF9F7E8),
             icon: Icon(UniconsLine.search),
             label: '도시 검색',
           ),
           BottomNavigationBarItem(
+            backgroundColor: Color(0xffF9F7E8),
             icon: Icon(UniconsLine.wind),
             label: '미세먼지',
           ),
           BottomNavigationBarItem(
+            backgroundColor: Color(0xffF9F7E8),
             icon: Icon(UniconsLine.info_circle),
             label: '앱 정보',
           ),

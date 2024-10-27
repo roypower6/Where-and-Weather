@@ -24,7 +24,6 @@ class _AirQualityScreenState extends State<AirQualityScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xffE8F9FD),
         body: Consumer<WeatherApiService>(
           builder: (context, weatherService, child) {
             return Padding(
@@ -39,7 +38,7 @@ class _AirQualityScreenState extends State<AirQualityScreen> {
                         style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xff2155CD),
+                          color: Color(0xff62BFAD),
                         ),
                       ),
                     ],
