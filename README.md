@@ -12,7 +12,7 @@ OpenWeatherMap 무료 플랜 API를 이용한 현재 위치 기반, 검색 날�
 <table width="100%">
   <tr>
     <td width="40%" align="center">
-      <img src="https://github.com/user-attachments/assets/6a918e45-5521-409f-b84e-c3f4b3d67600" width="200"/>
+      <img src="https://github.com/user-attachments/assets/36f8d412-636e-4e20-a0e7-a52fcb5e8c45" width="200"/>
     </td>
     <td width="60%">
       <h4>☀️ 메인 날씨 화면</h4>
@@ -32,20 +32,39 @@ OpenWeatherMap 무료 플랜 API를 이용한 현재 위치 기반, 검색 날�
 <table width="100%">
   <tr>
     <td width="40%" align="center">
-      <img src="https://github.com/user-attachments/assets/5c3a5f60-e895-4308-9e4c-cdefebf92bd8" width="200"/>
+      <img src="https://github.com/user-attachments/assets/e87b642a-fa9c-4c57-97f1-09d34b198e32" width="200"/>
     </td>
     <td width="60%">
       <h4>🛰️ 도시를 검색해서 날씨를 조회합니다.</h4>
-      <p>검색 결과를 하단에 띄워 곧바로 확인할 수 있습니다.</p>
+      <p>검색 결과를 키워드와 관련된 순으로 정렬하여 보여줍니다.</p>
     </td>
   </tr>
 </table>
 
-### **3. 대기질 지수 조회 화면**
+### **3. 도시 검색 상세 화면**
+
 <table width="100%">
   <tr>
     <td width="40%" align="center">
-      <img src="https://github.com/user-attachments/assets/d9c508e9-00c5-4ecd-8e14-3eec37b313e7" width="200"/>
+      <img src="https://github.com/user-attachments/assets/33591b03-bfae-4499-87a4-fa8f6acfbbc2" width="200"/>
+    </td>
+    <td width="60%" rowspan="2">
+      <h4>🛰️ 도시를 검색해서 날씨를 조회합니다.</h4>
+      <p>리스트의 각 항목을 클릭하면 상세 날씨 화면으로 이동합니다. 상세 날씨 화면에서는 현재의 날씨와 대기질 정보를 확인할 수 있습니다.</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="40%" align="center">
+      <img src="https://github.com/user-attachments/assets/33591b03-bfae-4499-87a4-fa8f6acfbbc2" width="200"/>
+    </td>
+  </tr>
+</table>
+
+### **4. 대기질 지수 조회 화면**
+<table width="100%">
+  <tr>
+    <td width="40%" align="center">
+      <img src="https://github.com/user-attachments/assets/d91923fc-7548-4263-9c4a-bbf2d22e6ee4" width="200"/>
     </td>
     <td width="60%">
       <h4>🌫️ 대표 대기질 지수를 보여주며, 동시에 구체적인 대기 구성 요소를 보여줍니다.</h4>
@@ -61,11 +80,11 @@ OpenWeatherMap 무료 플랜 API를 이용한 현재 위치 기반, 검색 날�
   </tr>
 </table>
 
-### **4. 앱 정보 화면**
+### **5. 앱 정보 화면**
 <table width="100%">
   <tr>
     <td width="40%" align="center">
-      <img src="https://github.com/user-attachments/assets/45c9e87f-6795-41a2-be2a-df2c6853d396" width="200"/>
+      <img src="https://github.com/user-attachments/assets/0a250f4e-adf6-4efa-ac69-f3a69071de57" width="200"/>
     </td>
     <td width="60%">
       <h4>ℹ️ 앱 정보 화면을 간단하게 확인할 수 있습니다.</h4>
@@ -74,6 +93,7 @@ OpenWeatherMap 무료 플랜 API를 이용한 현재 위치 기반, 검색 날�
         <li>개발자</li>
         <li>Github ID</li>
         <li>문의하기</li>
+        <li>API 제공</li>
       </ul>
     </td>
   </tr>
