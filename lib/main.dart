@@ -25,7 +25,11 @@ class MyApp extends StatelessWidget {
       title: 'where and weather',
       locale: const Locale('ko', 'KR'),
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xffF9F7E8),
+        scaffoldBackgroundColor: Colors.transparent,
+        primaryColor: const Color(0xFF2196F3),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF2196F3),
+        ),
       ),
       home: const SplashScreen(),
     );

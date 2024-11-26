@@ -26,40 +26,66 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _screens[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color(0xffF9F7E8),
-        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-        unselectedItemColor: Colors.grey,
-        selectedItemColor: const Color(0xff62BFAD),
-        currentIndex: _selectedIndex,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            backgroundColor: Color(0xffF9F7E8),
-            icon: Icon(UniconsLine.sun),
-            label: '날씨',
+      extendBody: true,
+      bottomNavigationBar: Container(
+        margin: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              blurRadius: 10,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(25),
+          child: BottomNavigationBar(
+            backgroundColor: Colors.white.withOpacity(0.95),
+            selectedItemColor: const Color(0xFF2196F3),
+            unselectedItemColor: Colors.grey.shade600,
+            selectedLabelStyle: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
+            ),
+            unselectedLabelStyle: const TextStyle(
+              fontSize: 12,
+            ),
+            type: BottomNavigationBarType.fixed,
+            currentIndex: _selectedIndex,
+            elevation: 0,
+            onTap: (index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
+            items: [
+              _buildNavItem(UniconsLine.sun, '날씨'),
+              _buildNavItem(UniconsLine.search, '도시 검색'),
+              _buildNavItem(UniconsLine.wind, '미세먼지'),
+              _buildNavItem(UniconsLine.info_circle, '앱 정보'),
+            ],
           ),
-          BottomNavigationBarItem(
-            backgroundColor: Color(0xffF9F7E8),
-            icon: Icon(UniconsLine.search),
-            label: '도시 검색',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Color(0xffF9F7E8),
-            icon: Icon(UniconsLine.wind),
-            label: '미세먼지',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Color(0xffF9F7E8),
-            icon: Icon(UniconsLine.info_circle),
-            label: '앱 정보',
-          ),
-        ],
+        ),
       ),
+    );
+  }
+
+  BottomNavigationBarItem _buildNavItem(IconData icon, String label) {
+    return BottomNavigationBarItem(
+      icon: Container(
+        padding: const EdgeInsets.symmetric(vertical: 5),
+        child: Icon(icon),
+      ),
+      activeIcon: Container(
+        padding: const EdgeInsets.symmetric(vertical: 5),
+        child: Icon(
+          icon,
+          size: 26,
+        ),
+      ),
+      label: label,
     );
   }
 }

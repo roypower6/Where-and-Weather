@@ -23,8 +23,10 @@ class AirQualityData {
     final components = json['list'][0]['components'];
     final main = json['list'][0]['main'];
 
+    final String location = json['city']['name'] ?? "위치 정보 없음";
+
     return AirQualityData(
-      location: "현재 위치",
+      location: location,
       aqi: main['aqi'],
       pm10: components['pm10'].toDouble(),
       pm25: components['pm2_5'].toDouble(),

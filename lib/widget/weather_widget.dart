@@ -17,119 +17,119 @@ class WeatherDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     final weatherId = weatherData['weather'][0]['id'];
     final iconData = WeatherIcons.getIconData(weatherId);
-    final iconColor = WeatherIcons.getIconColor(weatherId);
+    const iconColor = Colors.white;
 
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
             children: [
-              // 왼쪽 컬럼 - 현재 날씨 정보
-              Expanded(
-                flex: 3,
-                child: Column(
-                  children: [
-                    Text(
-                      weatherData['name'],
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Icon(
-                      iconData,
-                      size: 70,
-                      color: iconColor,
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      '${weatherData['main']['temp'].round()}°C',
-                      style: const TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      weatherData['weather'][0]['description'],
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                  ],
+              Text(
+                weatherData['name'],
+                style: const TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
-              const SizedBox(width: 20),
-              // 오른쪽 컬럼 - 상세 정보
-              Expanded(
-                flex: 2,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    const SizedBox(
-                      height: 5,
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    iconData,
+                    size: 80,
+                    color: iconColor,
+                  ),
+                  const SizedBox(width: 20),
+                  Text(
+                    '${weatherData['main']['temp'].round()}°C',
+                    style: const TextStyle(
+                      fontSize: 48,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
-                    _buildInfoTile(
-                      UniconsLine.temperature_half,
-                      '체감 온도',
-                      '${weatherData['main']['feels_like'].round()}°C',
-                    ),
-                    const SizedBox(height: 16),
-                    _buildInfoTile(
-                      Icons.water_drop_rounded,
-                      '습도',
-                      '${weatherData['main']['humidity']}%',
-                    ),
-                    const SizedBox(height: 16),
-                    _buildInfoTile(
-                      Icons.air_outlined,
-                      '풍속',
-                      '${weatherData['wind']['speed']} m/s',
-                    ),
-                    const SizedBox(height: 16),
-                    _buildInfoTile(
-                      UniconsLine.compress_v,
-                      '기압',
-                      '${weatherData['main']['pressure']} hPa',
-                    ),
-                  ],
+                  ),
+                ],
+              ),
+              Text(
+                weatherData['weather'][0]['description'],
+                style: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
                 ),
               ),
             ],
           ),
-          const Divider(
-            height: 60,
-            indent: 30,
-            endIndent: 30,
-            thickness: 1.3,
-            color: Colors.black,
-          ),
-          if (fiveDayForecast != null) _buildFiveDayForecast(),
-        ],
-      ),
+        ),
+        const SizedBox(height: 20),
+        GridView.count(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          crossAxisCount: 2,
+          childAspectRatio: 1.5,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          children: [
+            _buildDetailCard(
+              UniconsLine.temperature_half,
+              '체감 온도',
+              '${weatherData['main']['feels_like'].round()}°C',
+            ),
+            _buildDetailCard(
+              Icons.water_drop_rounded,
+              '습도',
+              '${weatherData['main']['humidity']}%',
+            ),
+            _buildDetailCard(
+              Icons.air_outlined,
+              '풍속',
+              '${weatherData['wind']['speed']} m/s',
+            ),
+            _buildDetailCard(
+              UniconsLine.compress_v,
+              '기압',
+              '${weatherData['main']['pressure']} hPa',
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        if (fiveDayForecast != null) _buildFiveDayForecast(),
+      ],
     );
   }
 
-  Widget _buildInfoTile(IconData icon, String label, String value) {
+  Widget _buildDetailCard(IconData icon, String label, String value) {
     return Container(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
+        color: Colors.white.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(15),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: Colors.black87),
-          const SizedBox(width: 8),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(label, style: const TextStyle(fontSize: 14)),
-              Text(
-                value,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ],
+          Icon(icon, color: Colors.white, size: 30),
+          const SizedBox(height: 8),
+          Text(
+            label,
+            style: const TextStyle(
+              color: Colors.white70,
+              fontSize: 14,
+            ),
+          ),
+          Text(
+            value,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ],
       ),
@@ -149,76 +149,78 @@ class WeatherDisplay extends StatelessWidget {
         dailyForecasts[dateKey] = forecast;
       }
     }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
           '6일 예보',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        GridView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            childAspectRatio: 0.8, // childAspectRatio 조정
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 5,
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
-          itemCount: dailyForecasts.length,
-          itemBuilder: (context, index) {
-            final forecast = dailyForecasts.values.elementAt(index);
-            final DateTime date =
-                DateTime.fromMillisecondsSinceEpoch(forecast['dt'] * 1000);
-            final weatherId = forecast['weather'][0]['id'];
-            final iconData = WeatherIcons.getIconData(weatherId);
-            final iconColor = WeatherIcons.getIconColor(weatherId);
+        ),
+        const SizedBox(height: 10),
+        SizedBox(
+          height: 160, // 카드의 높이 지정
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal, // 가로 스크롤 설정
+            itemCount: dailyForecasts.length,
+            itemBuilder: (context, index) {
+              final forecast = dailyForecasts.values.elementAt(index);
+              final DateTime date =
+                  DateTime.fromMillisecondsSinceEpoch(forecast['dt'] * 1000);
+              final weatherId = forecast['weather'][0]['id'];
+              final iconData = WeatherIcons.getIconData(weatherId);
+              const iconColor = Colors.white;
 
-            return Container(
-              padding: const EdgeInsets.all(5.0),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.blue.withOpacity(0.3)),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    DateFormat('MM/dd (E)', 'ko_KR').format(date),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 13,
+              return Container(
+                width: 120, // 카드의 너비 지정
+                margin: const EdgeInsets.only(right: 12),
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      DateFormat('MM/dd (E)', 'ko_KR').format(date),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        color: Colors.white,
+                      ),
                     ),
-                    overflow: TextOverflow.ellipsis, // 텍스트 overflow 처리
-                  ),
-                  const SizedBox(height: 4),
-                  Icon(iconData, size: 30, color: iconColor),
-                  const SizedBox(height: 4),
-                  Text(
-                    '${forecast['main']['temp'].round()}°C',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                    const SizedBox(height: 8),
+                    Icon(iconData, size: 35, color: iconColor),
+                    const SizedBox(height: 8),
+                    Text(
+                      '${forecast['main']['temp'].round()}°C',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 25,
-                    // 텍스트가 충분한 공간을 차지하도록 확장
-                    child: Text(
+                    const SizedBox(height: 4),
+                    Text(
                       forecast['weather'][0]['description'],
-                      style: const TextStyle(fontSize: 15),
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: Colors.white70,
+                      ),
                       textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis, // 텍스트 overflow 처리
-                      maxLines: 2, // 최대 2줄로 설정
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
                     ),
-                  ),
-                ],
-              ),
-            );
-          },
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ],
     );

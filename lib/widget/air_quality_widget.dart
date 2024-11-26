@@ -49,19 +49,31 @@ class AirQualityDisplay extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-          Text(
-            airQualityData.location,
-            style: const TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.location_on,
+                color: Colors.white,
+                size: 30,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                airQualityData.location,
+                style: const TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 20),
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: getAQIColor(airQualityData.aqi),
-              borderRadius: BorderRadius.circular(10),
+              color: Colors.white.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(15),
             ),
             child: Column(
               children: [
@@ -72,30 +84,46 @@ class AirQualityDisplay extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                Text(
-                  getAQIDescription(airQualityData.aqi),
-                  style: const TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                const SizedBox(height: 10),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
+                  ),
+                  decoration: BoxDecoration(
+                    color: getAQIColor(airQualityData.aqi),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    getAQIDescription(airQualityData.aqi),
+                    style: const TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-          const Divider(
-            height: 60,
-            indent: 30,
-            endIndent: 30,
-            thickness: 1.3,
-            color: Colors.black,
+          const SizedBox(height: 20),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Column(
+              children: [
+                _buildPollutantSection('미세먼지 (PM10)', airQualityData.pm10),
+                _buildPollutantSection('초미세먼지 (PM2.5)', airQualityData.pm25),
+                _buildPollutantSection('이산화황 (SO₂)', airQualityData.so2),
+                _buildPollutantSection('이산화질소 (NO₂)', airQualityData.no2),
+                _buildPollutantSection('오존 (O₃)', airQualityData.o3),
+                _buildPollutantSection('일산화탄소 (CO)', airQualityData.co),
+              ],
+            ),
           ),
-          _buildPollutantSection('미세먼지 (PM10)', airQualityData.pm10),
-          _buildPollutantSection('초미세먼지 (PM2.5)', airQualityData.pm25),
-          _buildPollutantSection('이산화황 (SO₂)', airQualityData.so2),
-          _buildPollutantSection('이산화질소 (NO₂)', airQualityData.no2),
-          _buildPollutantSection('오존 (O₃)', airQualityData.o3),
-          _buildPollutantSection('일산화탄소 (CO)', airQualityData.co),
         ],
       ),
     );
@@ -112,6 +140,7 @@ class AirQualityDisplay extends StatelessWidget {
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
+              color: Colors.white,
             ),
           ),
           Text(
@@ -119,6 +148,7 @@ class AirQualityDisplay extends StatelessWidget {
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
+              color: Colors.white,
             ),
           ),
         ],

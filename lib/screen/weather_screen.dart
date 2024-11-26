@@ -22,79 +22,116 @@ class _HomeScreenState extends State<WeatherScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Consumer<WeatherApiService>(
-          builder: (context, weatherService, child) {
-            return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  children: [
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Color(0xFF2196F3), Color(0xFF64B5F6)],
+        ),
+      ),
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: RefreshIndicator(
+            onRefresh: () => context.read<WeatherApiService>().fetchData(
+                  includeWeather: true,
+                  includeForecast: true,
+                ),
+            child: Consumer<WeatherApiService>(
+              builder: (context, weatherService, child) {
+                return SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
                       children: [
-                        Text(
-                          "Where and Weather",
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xff62BFAD),
-                          ),
-                        ),
-                      ],
-                    ),
-                    if (weatherService.isLoading)
-                      const Center(child: CircularProgressIndicator())
-                    else if (weatherService.error != null)
-                      Center(
-                        child: Column(
+                        const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              weatherService.error!,
-                              style: const TextStyle(color: Colors.red),
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(height: 16),
-                            ElevatedButton(
-                              onPressed: () {
-                                weatherService.fetchData(
-                                  includeWeather: true,
-                                  includeForecast: true,
-                                );
-                              },
-                              child: const Text('다시 시도'),
+                              "Where and Weather",
+                              style: TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
                           ],
                         ),
-                      )
-                    else if (weatherService.weatherData == null)
-                      const Center(
-                        child: Text('날씨 정보를 불러오는 중입니다...'),
-                      )
-                    else
-                      RefreshIndicator(
-                        onRefresh: () => weatherService.fetchData(
-                          includeWeather: true,
-                          includeForecast: true,
-                        ),
-                        child: SingleChildScrollView(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          child: Padding(
-                            padding: const EdgeInsets.all(1.0),
-                            child: WeatherDisplay(
-                              weatherData: weatherService.weatherData!,
-                              fiveDayForecast: weatherService.forecastData,
-                            ),
+                        const SizedBox(height: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.calendar_today,
+                                size: 16,
+                                color: Colors.white.withOpacity(0.9),
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                "${DateTime.now().year}년 ${DateTime.now().month}월 ${DateTime.now().day}일",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white.withOpacity(0.9),
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                  ],
-                ),
-              ),
-            );
-          },
+                        const SizedBox(height: 8),
+                        if (weatherService.isLoading)
+                          const Center(child: CircularProgressIndicator())
+                        else if (weatherService.error != null)
+                          Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  weatherService.error!,
+                                  style: const TextStyle(color: Colors.red),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 16),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    weatherService.fetchData(
+                                      includeWeather: true,
+                                      includeForecast: true,
+                                    );
+                                  },
+                                  child: const Text('다시 시도'),
+                                ),
+                              ],
+                            ),
+                          )
+                        else if (weatherService.weatherData == null)
+                          const Center(
+                            child: Text('날씨 정보를 불러오는 중입니다...'),
+                          )
+                        else
+                          WeatherDisplay(
+                            weatherData: weatherService.weatherData!,
+                            fiveDayForecast: weatherService.forecastData,
+                          ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
         ),
       ),
     );

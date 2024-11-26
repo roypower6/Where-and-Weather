@@ -6,53 +6,76 @@ class AppInfoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            children: [
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "App Information",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff62BFAD),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 30),
-              Expanded(
-                child: ListView(
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Color(0xFF2196F3), Color(0xFF64B5F6)],
+        ),
+      ),
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    _buildInfoItem(
-                      icon: UniconsLine.info_circle,
-                      title: "버전",
-                      subtitle: "1.0.0",
-                    ),
-                    _buildInfoItem(
-                      icon: Icons.person_outline,
-                      title: "개발자",
-                      subtitle: "Rhee Seung-gi",
-                    ),
-                    _buildInfoItem(
-                      icon: UniconsLine.github,
-                      title: "Github ID",
-                      subtitle: "roypower6",
-                    ),
-                    _buildInfoItem(
-                      icon: Icons.email_outlined,
-                      title: "문의하기",
-                      subtitle: "roy040707@gmail.com",
+                    Text(
+                      "앱 정보",
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ],
                 ),
-              ),
-            ],
+                const SizedBox(height: 20),
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: ListView(
+                      children: [
+                        _buildInfoItem(
+                          icon: UniconsLine.info_circle,
+                          title: "버전",
+                          subtitle: "2.0.1",
+                        ),
+                        _buildInfoItem(
+                          icon: Icons.person_outline,
+                          title: "개발자",
+                          subtitle: "Rhee Seung-gi",
+                        ),
+                        _buildInfoItem(
+                          icon: UniconsLine.github,
+                          title: "Github ID",
+                          subtitle: "roypower6",
+                        ),
+                        _buildInfoItem(
+                          icon: Icons.email_outlined,
+                          title: "문의하기",
+                          subtitle: "roy040707@gmail.com",
+                        ),
+                        _buildInfoItem(
+                          icon: Icons.api_rounded,
+                          title: "Powered by",
+                          subtitle: "OpenWeatherMap API",
+                          showDivider: false,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -71,7 +94,7 @@ class AppInfoScreen extends StatelessWidget {
         ListTile(
           leading: Icon(
             icon,
-            color: const Color(0xff2155CD),
+            color: Colors.white,
             size: 30,
           ),
           title: Text(
@@ -79,22 +102,23 @@ class AppInfoScreen extends StatelessWidget {
             style: const TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w500,
+              color: Colors.white,
             ),
           ),
           subtitle: Text(
             subtitle,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 15,
-              color: Colors.grey,
+              color: Colors.white.withOpacity(0.7),
             ),
           ),
           onTap: onTap,
         ),
         if (showDivider)
-          const Divider(
+          Divider(
             height: 5,
             thickness: 1,
-            color: Colors.grey,
+            color: Colors.white.withOpacity(0.3),
           ),
       ],
     );
