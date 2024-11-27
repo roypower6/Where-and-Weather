@@ -30,7 +30,7 @@ class WeatherDisplay extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                weatherData['name'],
+                "${weatherData['name']}, ${weatherData['sys']['country']}",
                 style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -139,13 +139,14 @@ class WeatherDisplay extends StatelessWidget {
   Widget _buildFiveDayForecast() {
     final List<dynamic> forecasts = fiveDayForecast!['list'];
     final Map<String, dynamic> dailyForecasts = {};
+    final String today = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
     for (var forecast in forecasts) {
       final DateTime date =
           DateTime.fromMillisecondsSinceEpoch(forecast['dt'] * 1000);
       final String dateKey = DateFormat('yyyy-MM-dd').format(date);
 
-      if (!dailyForecasts.containsKey(dateKey)) {
+      if (!dailyForecasts.containsKey(dateKey) && dateKey != today) {
         dailyForecasts[dateKey] = forecast;
       }
     }
@@ -154,7 +155,7 @@ class WeatherDisplay extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          '6일 예보',
+          '5일 예보',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,

@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:where_and_weather/service/open_weather_api.dart';
 import 'package:where_and_weather/screen/city_detail_screen.dart';
 import 'dart:async';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -14,6 +16,61 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   Timer? _debounce;
+  List<Map<String, dynamic>> searchHistory = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSearchHistory();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<WeatherApiService>().searchResults = null;
+    });
+  }
+
+  Future<void> _loadSearchHistory() async {
+    final prefs = await SharedPreferences.getInstance();
+    final historyJson = prefs.getStringList('citySearchHistory') ?? [];
+    setState(() {
+      searchHistory = historyJson
+          .map((item) => json.decode(item) as Map<String, dynamic>)
+          .toList();
+    });
+  }
+
+  Future<void> _addToSearchHistory(Map<String, dynamic> city) async {
+    if (searchHistory.any((item) =>
+        item['name'] == city['name'] &&
+        item['lat'] == city['lat'] &&
+        item['lon'] == city['lon'])) {
+      return;
+    }
+
+    setState(() {
+      searchHistory.insert(0, city);
+      if (searchHistory.length > 10) {
+        // 최대 10개까지만 저장
+        searchHistory.removeLast();
+      }
+    });
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(
+      'citySearchHistory',
+      searchHistory.map((item) => json.encode(item)).toList(),
+    );
+  }
+
+  Future<void> _removeFromSearchHistory(int index) async {
+    setState(() {
+      searchHistory.removeAt(index);
+    });
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(
+      'citySearchHistory',
+      searchHistory.map((item) => json.encode(item)).toList(),
+    );
+  }
 
   @override
   void dispose() {
@@ -25,8 +82,63 @@ class _SearchScreenState extends State<SearchScreen> {
   void _onSearchChanged(String query) {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
-      context.read<WeatherApiService>().searchCities(query);
+      if (query.isEmpty) {
+        context.read<WeatherApiService>().searchResults = null;
+        setState(() {});
+      } else {
+        context.read<WeatherApiService>().searchCities(query);
+      }
     });
+  }
+
+  Widget _buildSearchHistory() {
+    return ListView.builder(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      itemCount: searchHistory.length,
+      itemBuilder: (context, index) {
+        final city = searchHistory[index];
+        return Card(
+          color: Colors.white.withOpacity(0.2),
+          elevation: 0,
+          margin: const EdgeInsets.only(bottom: 8),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: ListTile(
+            leading: const Icon(Icons.history, color: Colors.white),
+            title: Text(
+              city['name'],
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            subtitle: Text(
+              '${city['country']}${city['state'] != null ? ', ${city['state']}' : ''}',
+              style: TextStyle(
+                color: Colors.white.withOpacity(0.7),
+              ),
+            ),
+            trailing: IconButton(
+              icon: const Icon(Icons.close, color: Colors.white70),
+              onPressed: () => _removeFromSearchHistory(index),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CityDetailScreen(
+                    cityName: city['name'],
+                    lat: city['lat'],
+                    lon: city['lon'],
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -91,7 +203,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 )
                               : null,
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(20),
                             borderSide: BorderSide.none,
                           ),
                         ),
@@ -120,12 +232,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     }
 
                     if (weatherService.searchResults == null) {
-                      return const Center(
-                        child: Text(
-                          '도시 이름을 입력하고 검색해보세요',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      );
+                      return _buildSearchHistory(); // 검색 결과가 없을 때 검색 기록 표시
                     }
 
                     if (weatherService.searchResults!.isEmpty) {
@@ -164,6 +271,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               ),
                             ),
                             onTap: () {
+                              _addToSearchHistory(city); // 도시 선택 시 검색 기록에 추가
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
