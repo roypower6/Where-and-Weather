@@ -164,7 +164,7 @@ class WeatherDisplay extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         SizedBox(
-          height: 160, // 카드의 높이 지정
+          height: 170, // 카드의 높이 지정
           child: ListView.builder(
             scrollDirection: Axis.horizontal, // 가로 스크롤 설정
             itemCount: dailyForecasts.length,

@@ -4,6 +4,8 @@ import 'package:where_and_weather/screen/search_screen.dart';
 import 'package:where_and_weather/screen/weather_screen.dart';
 import 'package:where_and_weather/screen/air_quality_screen.dart';
 import 'package:unicons/unicons.dart';
+import 'package:provider/provider.dart';
+import 'package:where_and_weather/service/open_weather_api.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -21,6 +23,17 @@ class _MainScreenState extends State<MainScreen> {
     const AirQualityScreen(),
     const AppInfoScreen(),
   ];
+
+  void _onTabChanged(int index) {
+    if (_selectedIndex != index) {
+      if (index == 0) {
+        context.read<WeatherApiService>().restoreCurrentLocationData();
+      }
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,15 +68,11 @@ class _MainScreenState extends State<MainScreen> {
             type: BottomNavigationBarType.fixed,
             currentIndex: _selectedIndex,
             elevation: 0,
-            onTap: (index) {
-              setState(() {
-                _selectedIndex = index;
-              });
-            },
+            onTap: _onTabChanged,
             items: [
               _buildNavItem(UniconsLine.sun, '날씨'),
               _buildNavItem(UniconsLine.search, '도시 검색'),
-              _buildNavItem(UniconsLine.wind, '미세먼지'),
+              _buildNavItem(UniconsLine.wind, '대기질'),
               _buildNavItem(UniconsLine.info_circle, '앱 정보'),
             ],
           ),

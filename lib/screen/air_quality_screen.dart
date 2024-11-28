@@ -14,10 +14,15 @@ class _AirQualityScreenState extends State<AirQualityScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-      () =>
-          context.read<WeatherApiService>().fetchData(includeAirQuality: true),
-    );
+    Future.microtask(() {
+      final weatherService = context.read<WeatherApiService>();
+      if (!weatherService.isInitialized) {
+        weatherService.fetchData(
+          includeWeather: true,
+          includeAirQuality: true,
+        );
+      }
+    });
   }
 
   @override
@@ -85,6 +90,7 @@ class _AirQualityScreenState extends State<AirQualityScreen> {
                                 ElevatedButton(
                                   onPressed: () {
                                     weatherService.fetchData(
+                                        includeWeather: true,
                                         includeAirQuality: true);
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -112,8 +118,11 @@ class _AirQualityScreenState extends State<AirQualityScreen> {
                     else if (weatherService.airQualityData != null)
                       Expanded(
                         child: RefreshIndicator(
-                          onRefresh: () =>
-                              weatherService.fetchData(includeAirQuality: true),
+                          onRefresh: () => weatherService.fetchData(
+                            includeWeather: true,
+                            includeAirQuality: true,
+                            forceRefresh: true,
+                          ),
                           color: Colors.white,
                           backgroundColor: Colors.white.withOpacity(0.2),
                           child: SingleChildScrollView(

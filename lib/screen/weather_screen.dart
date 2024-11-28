@@ -14,10 +14,15 @@ class _HomeScreenState extends State<WeatherScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => context.read<WeatherApiService>().fetchData(
+    Future.microtask(() {
+      final weatherService = context.read<WeatherApiService>();
+      if (!weatherService.isInitialized) {
+        weatherService.fetchData(
           includeWeather: true,
           includeForecast: true,
-        ));
+        );
+      }
+    });
   }
 
   @override
@@ -37,6 +42,7 @@ class _HomeScreenState extends State<WeatherScreen> {
             onRefresh: () => context.read<WeatherApiService>().fetchData(
                   includeWeather: true,
                   includeForecast: true,
+                  forceRefresh: true,
                 ),
             child: Consumer<WeatherApiService>(
               builder: (context, weatherService, child) {
