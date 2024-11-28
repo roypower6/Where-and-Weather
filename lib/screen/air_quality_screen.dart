@@ -16,12 +16,21 @@ class _AirQualityScreenState extends State<AirQualityScreen> {
     super.initState();
     Future.microtask(() {
       final weatherService = context.read<WeatherApiService>();
+      weatherService.restoreCurrentLocationData();
       if (!weatherService.isInitialized) {
         weatherService.fetchData(
           includeWeather: true,
           includeAirQuality: true,
         );
       }
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    Future.microtask(() {
+      context.read<WeatherApiService>().restoreCurrentLocationData();
     });
   }
 

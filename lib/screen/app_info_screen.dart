@@ -47,7 +47,7 @@ class AppInfoScreen extends StatelessWidget {
                         _buildInfoItem(
                           icon: UniconsLine.info_circle,
                           title: "버전",
-                          subtitle: "2.0.1",
+                          subtitle: "2.0.2",
                         ),
                         _buildInfoItem(
                           icon: Icons.person_outline,

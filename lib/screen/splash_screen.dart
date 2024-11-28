@@ -60,8 +60,8 @@ class SplashScreenState extends State<SplashScreen>
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFF176B87), // 앱의 메인 컬러
-              Color(0xFF64CCC5), // 보조 컬러
+              Color(0xFF2196F3),
+              Color(0xFF64B5F6),
             ],
           ),
         ),
